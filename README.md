@@ -291,3 +291,88 @@ body, input, textarea, button {
 
 ## Componente Header
 
+  Para implementação do componente Header, dentro da pasta de componentes `./src/components/` criamos os arquivos _"Header.jsx"_ e _"Header.module.css"_.
+
+  > Ponto importante — Por padrão, os componentes devem ser criados com a primeira letra maiúscula, isso ajuda a diferenciar os elementos html dos componentes React, já que ambos existem no código.
+
+  Como o próprio nome diz, o componente _Header_ será formado por uma tag \<header>, razão essa que temos o nome do componente com letra maiúscula.
+
+```javascript
+import styles from './Header.module.css'
+import igniteLogo from '../assets/igniteLogo.svg'
+
+export function Header() {
+  return (
+    <header className={styles.header}>
+      <img src={igniteLogo} alt="Ignite Logo" />
+      <strong>Ignite Feed</strong>
+    </header>
+  )
+}
+```
+  Os nomes das classes dos elementos dentro do componente estão dentro de chaves pois eles são representados pela variável styles que foi importada do css module do componente _Header_ como já vimos.
+
+  O que há de novo até aqui é a forma de importação das imagens. Após baixarmos a imagem, colocamos ela dentro da pastas `./src/assets/` e de lá nós importamos usando o _"export default"_ como já vimos antes.
+
+  Ao final da estilização temos o Header da seguinte forma:
+
+![Imagem do componente header na app](./public/header-img.png)
+
+## Componente: Sidebar
+
+  O Componente Sidebar é composto por uma tag \<aside> e todos os elementos que ela compoe como \<img>, \<footer>, etc.
+
+```javascript
+import styles from "./Sidebar.module.css";
+import { PencilSimpleLine } from "@phosphor-icons/react";
+
+export function Sidebar() {
+  return (
+    <aside className={styles.sidebar}>
+      <img
+        className={styles.cover}
+        src=""
+      />
+      <div className={styles.profile}>
+        <img className={styles.avatar} src="" />
+
+        <strong>Davi Santos</strong>
+        <span>Web Developer</span>
+      </div>
+      <footer>
+        <a href="#">
+          <PencilSimpleLine size={20} />
+          Editar seu perfil
+        </a>
+      </footer>
+    </aside>
+  )
+}
+```
+  Algumas coisas novas que aprendemos nesse componente é que como as imagens serão dinâmicas de acordo com o usuário, elas não vão precisar de texto alternativo (\<alt>). Outra coisa importante é o uso de Icons importados via libs que baixamos.
+
+  Utilizamos essas libs de ícones porque usar imagens baixadas sempre que precisarmos usar um ícone, acarretaria em um grande uso de links e baixaria uma quantidade de dados, o que deixaria a aplicação desnecessariamente pesada.
+
+  No nosso caso baixamos o ___[Phosphor Icons](https://phosphoricons.com)___ através do `npm i @phosphor-icons/react` ou `yarn add @phosphor-icons/react`, para usarmos ele precisamos apenas importá-lo no componente que vamos usar e colocar o nome do ícone como componente na aplicação.
+
+```css
+.sidebar {
+  background: var(--gray-800);
+  border-radius: 8px;
+  overflow: hidden;
+}
+```
+  Algo interessante nesse trecho também, foi a explicação do overflow, que funciona como uma caixa. Basicamente ele expicita que tudo que estivar "overflow", ou seja, por fora da caixa, deve ser escondido.
+
+  Também temos o uso da função `calc()` do css:
+```css
+.avatar {
+  width: calc(3rem + 12px);
+  height: calc(3rem + 12px);
+  border-radius: 3px;
+  border: 4px solid var(--gray-800);
+  outline: 2px solid var(--green-500);
+}
+```
+
+## Componente: Post
