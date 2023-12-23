@@ -376,3 +376,51 @@ export function Sidebar() {
 ```
 
 ## Componente: Post
+
+  Vamos começar esse componentes citando o processo de criação de componente. A organização é mto importante, mas não é bom criar diversas pastas logo no começo da criação da aplicação porque pode acabar deixando a aplicação mais pesada, mais complicada do que ela realmente é.
+
+  Por essa e outras razões, não há necessidade de uma pasta para cada componente nessa aplicação por agora.
+
+  Mais uma coisa que citamos aqui é quais os passos que devemos seguir. Em primeiro lugar, ao ver o design criado do componente, vamos pensar em qual _estrutura html_ usar, pensando o que cada item é e como ele deve ser representado.
+
+  Em seguida, nós avaliamos a estilização da página e só então vamos para as funcionalidades.
+
+  Em ordem temos:
+
+- HTML e estruturação
+- CSS ou estilização
+- Funcionalidades
+
+  A estrutura do post ficou a seguinte:
+```javascript
+// Post.jsx
+<article className={styles.post}>
+    <header>
+      <div className={styles.author}>
+        <img className={styles.avatar} src="https://www.github.com/dex64ter.png" />
+        <div className={styles.authorInfo}>
+          <strong>Davi Santos</strong>
+          <span>Dev Front-end</span>
+        </div>
+      </div>
+      <time title='8 de novembro às 8:30' dateTime='2023-11-08 08:30:00'>Publicado há 1h</time>
+    </header>
+    <div className={styles.content}>
+      <p>Fala galeraa 👋</p>
+      <p>Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀</p>
+      <p>👉{" "} <a href="#">jane.design/doctorcare</a></p>
+      <p>
+        <a href="#">#novoprojeto</a>{" "}
+        <a href="">#nlw</a>{" "}
+        <a href="">#rocketseat</a>
+      </p>
+    </div>
+  </article>
+```
+  Algumas coisas que foram aprendidas nesse componente:
+  
+  - A tag \<time> é útil para adesão de conteúdo de datas e hora.
+  - No React, o html não adere ao uso de vários espaços, então o espaço no React é feito com {' '}
+  - Usar `.elemento + .elemento` no css, permite que nós estilizemos apenas o `.elemento` que possui um `.elemento` anterior a ele
+  - Usar `.pai > .elemento` no css, nos permite estilizar somente o `.elemento` que é filho direto de `.pai`
+
