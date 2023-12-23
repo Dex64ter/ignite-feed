@@ -69,3 +69,71 @@
   font-size: 0.875rem;
   list-style: 1.6;
 }
+
+.commentForm {
+  width: 100%;
+  margin-top: 1.5rem;
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--gray-700);
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.commentForm footer {
+  visibility: hidden;
+  max-height: 0;  
+}
+
+.commentForm:focus-within footer {
+  visibility: visible;
+  max-height: none;
+
+}
+
+.commentForm > strong {
+  line-height: 1.6;
+  color: var(--gray-100);
+}
+
+.commentForm textarea {
+  width: 100%;
+  height: 6rem;
+  background-color: var(--gray-900);
+  color: var(--gray-600);
+  
+  border: none;
+  resize: none;
+  line-height: 1.4;
+  
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  transition: all .2s;
+}
+
+.commentForm textarea:focus {
+  color: var(--gray-300);
+  outline: 1px solid var(--green-800);
+  border: 1px solid var(--green-800);
+}
+
+.commentForm button[type=submit] {
+  padding: 1rem 1.5rem;
+  background: var(--green-500);
+  color: var(--white);
+  font-weight: bold;
+  border-radius: 8px;
+  border: 0;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.commentForm button[type=submit]:hover {
+  background: var(--green-800);
+}
+
+.commentList {
+  margin-top: 2rem;
+}
