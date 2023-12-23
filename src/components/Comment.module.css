@@ -4,12 +4,6 @@
   gap: 1rem;
 }
 
-.comment > img {
-  width: 3.125rem;
-  height: 3.125rem;
-  border-radius: 8px;
-}
-
 .comment footer {
   margin-top: 1rem;
 }
