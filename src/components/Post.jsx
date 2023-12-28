@@ -3,6 +3,10 @@ import { Comment } from './Comment.jsx';
 
 import styles from './Post.module.css';
 
+// author: {avatar: "", name: "", role: ""}
+// publishedAt: Date
+// content: ""
+
 export function Post() {
   return (
     <article className={styles.post}>

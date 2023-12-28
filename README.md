@@ -424,3 +424,163 @@ export function Sidebar() {
   - Usar `.elemento + .elemento` no css, permite que nós estilizemos apenas o `.elemento` que possui um `.elemento` anterior a ele
   - Usar `.pai > .elemento` no css, nos permite estilizar somente o `.elemento` que é filho direto de `.pai`
 
+## Formulário de comentários
+
+  Agora vamos começar a criar a estrutura e estilização do formulário de comentários, aprendendo também de algumas propriedades novas como o :focus do CSS
+
+  Em resumo, como já vimos antes, criamos uma parte dentro de Post para a parte de escrita de comentários de outros usuários. Para isso usamos uma tag de formulário.
+
+```javascript
+// ...
+// Post.jsx
+<form className={styles.commentForm}>
+  <strong>Deixe seu feedback</strong>
+  <textarea
+    placeholder="Comente algo..."
+  />
+  <footer>
+    <button type="submit">Publicar</button>
+  </footer>
+</form>
+```
+  Após feita a estrutura criamos a nossa estilização do formulário. Nessa parte, poemos destacar duas boas práticas interessantes.
+
+```css
+.commentForm textarea:focus {
+  color: var(--gray-300);
+  outline: 1px solid var(--green-800);
+  border: 1px solid var(--green-800);
+}
+
+.commentForm button[type=submit] {
+  padding: 1rem 1.5rem;
+  background: var(--green-500);
+  color: var(--white);
+  font-weight: bold;
+  border-radius: 8px;
+  border: 0;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+```
+  No código CSS acima, temos a propriedade focus que altera quando um elemento da tela é clicado ou _"focado"_ pelo usuário. No caso da nossa aplicação, ao focar no _textarea_ do formulário dos comentários, o elemento irá ter uma borda e um outline de determinada cor verde, além da cor da fonte alterada.
+
+  Outro assunto interessante, na parte do css, é que o botão de submissão do formulário só deve aparecer ao se ter o formulário do comentário em foco.
+
+  Sendo assim, a visibilidade do elemento deve ficar escondida até o formulário estar em foco pelo usuário e podemos fazer isso com CSS.
+
+```css
+.commentForm footer {
+  visibility: hidden;
+  max-height: 0;  
+}
+
+.commentForm:focus-within footer {
+  visibility: visible;
+  max-height: none;
+
+}
+```
+  Como os elementos filhos agregam a estilização do elemento pai, podemos deixar o elemento footer com ___visibility: hidden___ e ___max-height: 0___ fazendo com que todos os filhos não apareçam junto do pai.
+
+  A propriedade __".commentForm:focus-within"__ especifica qual estilização o elemento a seguir deve ter quando o elemento **.commentForm** for focado pelo usuário. Dessa forma, o nosso footer e todos seus filhos terão sua visibilidade normal e sem altura máxima do elemento.
+
+## Component: Comment
+  
+  Agora vamos começar a criar a estrutura do nosso componente de comentário, que exibirá cada comentário de um post do nosso feed.
+
+```javascript
+// Comment.jsx
+<div className={styles.comment}>
+  <img src="https://github.com/lucasmatosc.png">
+  <div className={styles.commentBox}>
+    <div className={styles.commentContent}>
+      <header>
+        <div className={styles.authorAndTime}>
+          <strong>Lucas Matos</strong>
+          <time title='8 de novembro às 8:30' dateTime='2023-11-08 08:30:00'>Cerca de 1h</time>
+        </div>
+        <button title="Deletar comentário">
+          <Trash size={24} />
+        </button>
+      </header>
+      <p>Parabéns pelo projeto, ficou incrível!</p>
+    </div>
+
+    <footer>
+      <button>
+        <ThumbsUp size={20} />
+        Aplaudir<span>20</span>
+      </button>
+    </footer>
+  </div>
+</div>
+```
+  Relacionado ao uso de botões sem texto que são identificados apenas por ícones, é sempre bom colocarmos um título com a propriedade _"title"_ por acessibilidade.
+
+  Dentro do Post utilizaremos esse componente dentro de uma div com className=_commentList_.
+
+```javascript
+// ...
+// Post.jsx
+<div className={styles.commentList}>
+  <Comment />
+  <Comment />
+  <Comment />
+</div>
+```
+
+## Componente: Avatar
+
+  Vamos lembrar que temos 2 grandes momentos em que é aconselhável criarmos um componente.
+
+<ol>
+  <li>
+    Quando alguma coisa repete mais de 2 vezes em tela, geralmente com o mesmo visual e mesmo comportamento.
+  </li>
+  <br>
+  <li>
+    Quando conseguimos tirar algo de um componente maior sem que aquele componente maior pare de funcionar.
+  </li>
+</ol>
+
+  A imagem de usuário presente tanto na _sidebar_ como nós _comentários_ e nos _posts_ é um elemento que se repete várias vezes, possui um comportamento igual e com mesma estlização.
+
+  Criamos a nossa estrutura do componente Avatar.jsx:
+```javascript
+export function Avatar({ hasBorder = true, src}) {
+  return (
+    <img className={hasBorder ? styles.avatarWithBorder : styles.avatar} src={src} />
+  )
+}
+```
+  Ele é apenas uma tag img com dois tipos de estilos. Isso porque no componente _Sidebar_ e _Post_ a imagem de avatar possui borda estilizada enquanto que nos comentários não.
+
+  Utilizando a desestruturação de objetos, temos nossas propriedade _"hasBorder"_ e _"src"_ uma que indica se o Avatar terá borda estilizada ou não e outra com a fonte da imagem.
+
+  Substituindo a tag img dentro do componente _Comment_ temos:
+```javascript
+<Avatar hasBorder={false} src="https://fonteImagem.com/imagem.png" />
+```
+
+## Aplicando Responsividade
+
+  Aqui é bem básico, vamos apenas alternar a visualização para diferentes dispositivos.
+  
+  No momento temos a estilização e responsividade apenas para web. Para alternarmos para visualização em dispositivos menores ou móveis podemos fazer o seguinte:
+
+```css
+/* App.module.css */
+@media (max-width: 768px) {
+  html {
+    font-size: 87.5%;
+  }
+
+  .wrapper {
+    grid-template-columns: 1fr;
+  }
+}
+```
+  A @media é uma ferramenta CSS para adapatar as estilizações para uma característica específica do documento ( geralmente para o tamanho da tela ), dessa forma podemos alterar a estilização para ficar responsivo em diferentes telas.
+
+  
