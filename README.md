@@ -671,3 +671,27 @@ export function Post({ author, content, publishedAt }) {
 
 ## Estado (useState)
 
+  Aqui vamos iniciar a construção de um formulário de comentários para aprendermos sobre o funcionamento da renderização do React, imutabilidade e como podemos utilizar hooks para controlar o valor de variáveis em um estado do React.
+
+  UseState é um hook do React muito útil para recuperar informações de variáveis e também modifica-las. Utilizando o conceito de imutabilidade, significa que você não pode alterar diretamente os valores com estado, usamos esse hook para guardar o valor de uma variável e modificá-la através de uma função própria do hook.
+
+```javascript
+// Declaração de variável sem o hook
+const comments = [
+  "Post muito legal, meus parabéns!",
+]
+
+export function Post({ author, content, publishedAt }) {
+  // ...
+```
+
+```javascript
+// Declaração de variável com o hook useState()
+
+export function Post({ author, content, publishedAt }) {
+  const [comments, setComments] = useState([
+    "Post muito legal, meus parabéns!",
+  ])
+  // ...
+```
+  No `useState` podemos tipificar a variável iniciando ela através do seu valor padrão, como no exemplo acima em que iniciamos a variável _comments_ com o valor padrão de um array com um elemento dentro
