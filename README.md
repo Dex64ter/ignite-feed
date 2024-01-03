@@ -583,4 +583,91 @@ export function Avatar({ hasBorder = true, src}) {
 ```
   A @media é uma ferramenta CSS para adapatar as estilizações para uma característica específica do documento ( geralmente para o tamanho da tela ), dessa forma podemos alterar a estilização para ficar responsivo em diferentes telas.
 
-  
+# Os motores do React
+
+## Iterando no JSX
+
+  A iteração no React é uma das ferramentas mais úteis para mostrarmos inúmeras informações em tela. Nessa parte dos ensinamentos, temos dois tipos de funções no js que iteram sobre arrays, _.forEach()_ e o _.map()_. Entre essas duas funções apenas uma delas possui retorno, a função _.map()_ e por conta disso ela é mais propriamente usada para mostrar componentes em tela.
+
+  No nosso exemplo em questão foi feito a iteração com os Posts da nossa aplicação:
+
+```javascript
+// Exemplo de estrtura de Post
+const posts = [
+  {
+    id: 1,
+    author: {
+      avatar: "https://www.github.com/MrPinabutter.png",
+      name: "Vitinho",
+      role: "Dev Front-end",
+    },
+    content: [
+      { type: "paragraph", content: "Fala galeraa 👋", },
+      { type: "paragraph", content: "Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀", },
+      { type: "link", content: "jane.design/doctorcare"},
+      { type: "link", content: "#novoprojeto"}
+    ],
+    publishedAt: new Date("2023-12-23 08:30:00"),
+    
+  },
+]
+```
+
+```javascript
+// Iteração sobre a list de posts com a função map
+export function App() {
+  return (
+    <>
+      <Header />
+      <div className={styles.wrapper}>
+        <Sidebar />
+        <main>
+          {posts.map(post => {          
+            return (
+              <Post
+                key={post.id}
+                author={post.author}
+                content={post.content}
+                publishedAt={post.publishedAt}               
+              />
+            )          
+          })}
+        </main>
+      </div>
+    </>
+  )
+}
+```
+
+  Mesmo usando um exemplo criado dentro do próprio componente, podemos adicionar as informações recolhidas do exemplo dentro do componente \<Post/> como suas propriedades.
+
+## Propriedades do Post
+
+  Nessa aula vamos aprender a como utilizar essa iteração para enviar os dados de cada post de nosso array para componente __*Post*__ para que ele possa ser renderizado em tela dinamicamente.
+
+  Basicamente, receberemos os dados pelo argumento _props_ no componente Post e em seguida usa-lo entre chaves em cada valor passado como argumento.
+
+```javascript
+export function Post(props) {
+  //...
+  {props.author.avatar}
+  {props.author.name}
+  {props.author.role}
+}
+```
+
+  Uma ferramenta importante que podemos usar aqui para evitar o uso de variáveis muito longas é a desestruturação.
+
+```javascript
+export function Post({ author, content, publishedAt }) {
+  //...
+  {author.avatar}
+  {author.name}
+  {author.role}
+}
+```
+
+> Usar a biblioteca date-fns é uma boa dica de formatação de datas e para utilizar o mesmo formato que utilizamos dentro de Post.jsx
+
+## Estado (useState)
+
