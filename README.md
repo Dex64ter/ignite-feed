@@ -695,3 +695,85 @@ export function Post({ author, content, publishedAt }) {
   // ...
 ```
   No `useState` podemos tipificar a variável iniciando ela através do seu valor padrão, como no exemplo acima em que iniciamos a variável _comments_ com o valor padrão de um array com um elemento dentro
+
+
+## Inserindo Comentários (Programação Declarativa)
+
+  Vamos aprender como utilizar do conceito de 
+formulários e componentes controlados do ReactJS para podermos adicionar comentários com textos baseados no que digitamos no input de cada post.
+
+  Em relação ao formulário, quando o usuário submete as informações contidas nele através do click de um botão, toda a página recarrega pois ele tenta enviar uma requisição para uma página e como não temos um alvo, ele reinicia a nossa página.
+
+  No nosso componente utilizamos a função **.preventDefault()** para evitar o comportamento padrão do formulário ao ser submetido.
+
+```javascript
+export function Post({ author, content, publishedAt }){
+  // ...
+  function handleCreateNewComment(event) {
+    event.preventDefault()
+  
+    setComments([...comments, newCommentText])
+    event.target.comment.value = ''
+  }
+  // ...
+  return (
+    // ...
+    <form onSubmit={handleCreateNewComment}>
+      // ...
+    </form>
+  )
+}
+```
+  Além disso, dentro das propriedades da tag _form_ temos o **onSubmit** do React, ele executa uma função específica quando o formulário é submetido.
+
+```javascript
+const [newCommentText, setNewCommentText] = useState('')
+
+//  ...
+
+function handleCreateNewComment(event) {
+  event.preventDefault()
+
+  setComments([...comments, newCommentText])
+  setNewCommentText('')
+}
+
+//  ...
+
+<form onSubmit={handleCreateNewComment} className={styles.commentForm}>
+  <strong>Deixe seu feedback</strong>
+  <textarea
+    placeholder="Comente algo..."
+    name='comment'
+    value={newCommentText}
+    onChange={handleNewCommentChange}
+  />
+  <footer>
+    <button type="submit">Publicar</button>
+  </footer>
+</form>
+```
+  Para recuperarmos um novo comentário, vamos monitorar toda vez que for modificado o valor da tag \<textarea/> usando a função `onChange` que verifica a modificação e executa determinada ação assim que ocorre.
+
+  **Daí a diferença de paradigmas que podemos verificar em React:**
+
+**Programação imperativa**:
+  Quando falamos de programação imperativa, queremos que o programa execute passo-a-passo.
+
+**Programação Declarativa**:
+  Utilizamos com muito mais frequência no React. Nela, ao invés de falar uma sequência de regras a ser seguida a risca nós especificamos quais as condições para que uma ação aconteça, ou seja, para que uma ação ocorra, uma série de condições precisam ser consideradas.
+
+## Entendendo a Key
+
+  Existem 3 momentos no React em que um componente é renderizado novamente:
+
+  1. Quando o estado altera;
+  2. Quando a propriedade altera;
+  3. Quando um componente pai renderiza novamente. 
+
+  Nesses 3 momentos, o React carrega tudo da página, todos os arrays, componentes e componentes dentro de outros componentes.
+
+  Nesses casos, o uso da `key=` que é uma propriedade própria do React, comumemte usada principalmente em objetos listados, é imprescindível porque ela especifica quais elementos não serão necessários serem renderizados novamente na página.
+
+  Por exemplo:
+  - Se os seguintes elementos com as keys `1, 2, 3` forem renderizados, quando um novo elemento for adicionado ( 4 ), o React compara todos os que já foram renderizados e os que não foram, dessa forma evitando renderizaç~eos desnecessárias.
