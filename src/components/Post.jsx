@@ -14,6 +14,8 @@ export function Post({ author, content, publishedAt }) {
   ])
   const [newCommentText, setNewCommentText] = useState('')
 
+  const isNewCommentDisabled = newCommentText.length === 0;
+
 
   const publishedDateFormated = format(publishedAt, "d 'de' MMMM 'às' HH:mm'h'", {
     locale: ptBR
@@ -33,7 +35,20 @@ export function Post({ author, content, publishedAt }) {
   }
 
   function handleNewCommentChange(){
+    event.target.setCustomValidity('')
     setNewCommentText(event.target.value)
+  }
+
+  function handleNewCommentInvalid() {
+    event.target.setCustomValidity('Este campo é obrigatório')
+  }
+
+  function deleteComment(commentToDelete) {
+    const CommentsWithoutOne = comments.filter(comment => {
+      return comment !== commentToDelete;
+    })
+
+    setComments(CommentsWithoutOne);
   }
 
   return (
@@ -72,16 +87,23 @@ export function Post({ author, content, publishedAt }) {
           name='comment'
           value={newCommentText}
           onChange={handleNewCommentChange}
+          onInvalid={handleNewCommentInvalid}
+          required
         />
         <footer>
-          <button type="submit">Publicar</button>
+          <button type="submit" disabled={isNewCommentDisabled}>Publicar</button>
         </footer>
       </form>
 
       <div className={styles.commentList}>
         {
           comments.map(comment => {
-            return <Comment key={comment} content={comment}/>
+            return (
+            <Comment
+              key={comment}
+              content={comment}
+              onDeleteComment={deleteComment}
+            />)
           })
         }
       </div>
