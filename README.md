@@ -777,3 +777,93 @@ function handleCreateNewComment(event) {
 
   Por exemplo:
   - Se os seguintes elementos com as keys `1, 2, 3` forem renderizados, quando um novo elemento for adicionado ( 4 ), o React compara todos os que já foram renderizados e os que não foram, dessa forma evitando renderizaç~eos desnecessárias.
+
+## Comunicação entre componentes
+
+  Uma das coisas mais importantes de se entender dentro do React, a comunicação entre os componentes da aplicação.
+  
+  O exemplo que usamos para ajudar a entender isso é a parte de excluir comentário de dentro do post.
+  
+  Nesse caso, utilizamos um botão proveniente de dentro do componente `Comment` para excluir um comentário da lista de comentários que está presente dentro do componente `Post`.
+
+```js
+// Comment.jsx
+export function Comment({ content, onDeleteComment }){
+
+  function handleDeleteComment(){
+    onDeleteComment(content)
+  }
+  // ...
+
+  return (
+    // ...
+
+    <button onClick={handleDeleteComment} title="Deletar comentário">
+      <Trash size={24} />
+    </button>
+
+    // ...  
+  )
+}
+```
+
+```js
+// Post.jsx
+export function Post({ author, content, publishedAt }){
+  
+  function deleteComment(commentToDelete) {
+    const CommentsWithoutOne = comments.filter(comment => {
+      return comment !== commentToDelete;
+    })
+
+    setComments(CommentsWithoutOne);
+  }
+  
+  return (
+    // ...
+
+    <div className={styles.commentList}>
+      {
+        comments.map(comment => {
+          return (
+          <Comment
+            key={comment}
+            content={comment}
+            onDeleteComment={deleteComment}
+          />)
+        })
+      }
+    </div>
+    // ...
+  )
+}
+```
+  Como presente no exemplo, podemos utilizar as propriedades do componente para a comunicação entre eles.
+
+  O `Post.jsx` envia uma função como valor para a propriedade _onDeleteComment_ do componente `Comment` e este recebe a função como parâmetro e envia o texto cujo comentário será excluído, então a função é executada no _Post_ para fazer a retirada no comentário expecífico da lista.
+
+## Validação de formulário e Realização de likes
+
+  Para a validação do formulário, temos a propriedade _required_ proveniente do html que permite exigir o conteúdo da tag para que o processo execute.
+
+  No componente `Post` possui um jeito melhor de validação onde podemos mudar a mensagem de validação, caso não tenha nada escrito no textarea usando a propriedade `onInvalid={}` passando a função necessária.
+
+  Para a realização dos likes dentro do componente `Comment`, usamos uma nova variável para guardar a quantidade. E com uma função `onClick` para capturas da ação do botão passamos uma nova função que acresce de 1 a variável de contagem dos likes.
+
+```js
+function handleLikeComment(){
+  setLikesComment(likesComment + 1)
+}
+```
+
+## Entendendo closures no React
+
+  Sempre que for atualizar uma informação e essa informação depende do valor que ela tinha anteriormente, ou seja, dela mesma, é sempre bom utilizar um padrão de funções.
+
+```js
+function handleLikeComment(){
+  setLikesComment((state) => {
+    return state + 1
+  })
+}
+```
