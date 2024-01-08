@@ -867,3 +867,15 @@ function handleLikeComment(){
   })
 }
 ```
+
+# Aprimorando a aplicação
+
+## Fundamentos do Typescript
+
+  - *O que é Typescript?*
+    - Ele foi adicionado como um conjunto fundamental em cima de JavaScript, para conseguirmos adicionar a tipagem estática em cima de uma linguagem com tipagem dinâmica
+
+  - *Por que utilizar Typescript?*
+    - Ele deixa o editor mais inteligente, todas as tipagens evitam uma série de erros dentro do código em produção.
+
+  Typescript se tornou uma ferramenta fundamental, a produtividade aumenta bastante além da diminuição da taxa de erros no código durante a produção.
